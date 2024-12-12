@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="es">
-<head th:fragment="head">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Joyeria Peeter</title>
@@ -9,13 +9,18 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Prata&display=swap" rel="stylesheet">
     <style>
+        body {
+        background-image: url("https://marketplace.canva.com/EAE_GlnB93A/1/0/1600w/canva-fondo-de-pantalla-para-computadora-flor-rosa-z4em7qgFsiQ.jpg");
+        background-size: cover;
+        background-repeat: no-repeat;
+    }
         .prata{
             font-size:16px;
             font-family: "Prata", serif;
             font-weight:bold;
         }
         .login {
-            background:rgba(0, 0, 0, 0.8);;
+            background:rgba(0, 0, 0, 0.7);;
             text-align: center;
             border-radius:10px;
             border: 2px solid #000;
@@ -46,10 +51,19 @@
             font-weight: bold;
             font-size: 18px;
         }
+        .btn-iniciar{
+        color: white;
+        border: 1px solid white;
+        }
+        .btn-iniciar:hover{
+        color: white;
+        background:black;
+        }
+
+        }
     </style>
 </head>
 <body class="bg-white prata">
-
 <header>
     <nav class="navbar navbar-expand-lg mb-3">
         <div class="container-fluid">
@@ -63,17 +77,17 @@
 <main>
     <div class="login mb-5">
         <h1 class="text-white"><b> Iniciar Sesión</b></h1>
-        <form class="px-4 py-3" action="/loginadmin/submit" method="post" >
+         <form  class="px-4 py-3" th:action="@{/loginadmin}" method="post">
             <div class="mb-3">
-                <label for="usuario" class="form-label label1">Usuario:</label>
-                <input type="text" class="form-control inputu" id="usuario" name="usuario" required autocomplete="off">
+                <label for="username" class="form-label label1">Usuario:</label>  <!-- Cambié el 'id' a 'username' -->
+                <input type="text" class="form-control inputu" id="username" name="username" required autocomplete="off">  <!-- Cambié 'name' a 'username' -->
             </div>
             <div class="mb-3">
-                <label for="contraseña" class="form-label label2">Contraseña:</label>
-                <input type="password" class="form-control inputp" id="contraseña" name="contraseña" required autocomplete="off">
+                <label for="password" class="form-label label2">Contraseña:</label>  <!-- Cambié el 'id' a 'password' -->
+                <input type="password" class="form-control inputp" id="password" name="password" required autocomplete="off">  <!-- Cambié 'name' a 'password' -->
             </div>
 
-            <div class="mb-3 ">
+            <div class="mb-3">
                 <div class="form-check">
                     <input type="checkbox" class="form-check-input" id="check">
                     <label class="form-check-label label3" for="check">
@@ -81,12 +95,15 @@
                     </label>
                 </div>
             </div>
-            <div th:if="${error}" th:text="${error}" style="color:red;"></div><br>
-            <button type="submit" class="btn btn-primary">Iniciar sesión</button>
+
+             <div th:if="${param.error}">
+                 <p style="color: red;">Nombre de usuario o contraseña incorrectos. Intenta nuevamente.</p>
+             </div>
+
+            <button type="submit" class="btn btn-iniciar">Iniciar sesión</button>
         </form>
     </div>
 </main>
 
 </body>
 </html>
-

@@ -8,90 +8,231 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Prata&display=swap" rel="stylesheet">
+
     <style th:fragment="style">
-           .container-principal{
-                text-align: center;
-           }
-           .nav-link{
-                font-weight: bold;
-                color: #000;
-                font-family: "Prata", serif;
-                font-size: 15px;
-           }
+        .container-principal {
+          text-align: center;
+      }
 
-            .nav-link:focus{
-                color:black ;
-            }
+      .nav-link {
+          font-weight: bold;
+          color: #000;
+          font-family: "Prata", serif;
+          font-size: 15px;
+      }
 
-            .btn-outline{
-                color: #000;
-                border:2px solid;
-                font-weight: bold;
-            }
-            .btn-outline:hover{
-                color:white;
-                background:#000;
-            }
+      .nav-link:focus {
+          color: black;
+      }
 
-            .formindex{
-                width:530px;
-                position: relative;
-                margin:0 auto;
-                right:100px;
-            }
-            .forme{
-                border:2px solid;
-                color:#000;
-            }
-            .icon1{
-                position: relative;
-                left: 22px;
-            }
-            .icon2{
-                position: relative;
-                left: 75px;
-            }
-            .icon1,.icon2{
-                width:40px;
-                height:40px;
-                cursor:pointer;
-            }
-            .aea{
-                width:10px;
-                height:10px;
-            }
-            .prata{
-                font-size:16px;
-                font-family: "Prata", serif;
-                font-weight:bold;
-            }
+      .btn-outline {
+          color: #000;
+          border: 2px solid;
+          font-weight: bold;
+      }
 
-            .btn-carrito{
-                font-weight: bold;
-                color:black;
-                border:2px solid #0033cc;
+      .btn-outline:hover {
+          color: white;
+          background: #000;
+      }
 
-            }
-            .btn-carrito:hover{
-                color:white;
-                background:#003366;
-                border:1px solid;
+      .formindex {
+          width: 530px;
+          position: relative;
+          margin: 0 auto;
+          right: 100px;
+      }
 
-            }
-            .btn-comprar{
-                font-weight: bold;
-                color:black ;
-                border:2px solid #009933;
-            }
-            .btn-comprar:hover{
-                color:white;
-                background:#006633;
-                border:1px solid;
-            }
+      .forme {
+          border: 2px solid;
+          color: #000;
+      }
+
+      .icon1 {
+          position: relative;
+          left: 22px;
+      }
+
+      .icon2 {
+          position: relative;
+          left: 75px;
+      }
+
+      .icon1, .icon2 {
+          width: 40px;
+          height: 40px;
+          cursor: pointer;
+      }
+
+      .aea {
+          width: 10px;
+          height: 10px;
+      }
+
+      .prata {
+          font-size: 16px;
+          font-family: "Prata", serif;
+          font-weight: bold;
+      }
+
+      .bg-primary {
+          width: 150px;
+      }
+
+      .btn-carrito {
+          font-weight: bold;
+          color: black;
+          border: 2px solid #0033cc;
+      }
+
+      .btn-carrito:hover {
+          color: white;
+          background: #003366;
+          border: 1px solid;
+      }
+
+      .btn-comprar {
+          font-weight: bold;
+          color: black;
+          border: 2px solid #009933;
+      }
+
+      .btn-comprar:hover {
+          color: white;
+          background: #006633;
+          border: 1px solid;
+      }
+
+      .floating-cart {
+          position: fixed;
+          top: 0;
+          right: -400px; /* Inicia fuera de la pantalla */
+          width: 350px;
+          height: 100%;
+          background-color: #fff;
+          border-left: 1px solid #ccc;
+          box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+          transition: right 0.4s ease;
+          z-index: 1050;
+      }
+
+      .floating-cart.open {
+          right: 0; /* Cuando esté abierto, se despliega */
+      }
+
+      .floating-cart-header {
+          padding: 10px;
+          background-color: #000;
+          color: white;
+          text-align: center;
+          font-weight: bold;
+      }
+
+      .floating-cart-body {
+          padding: 20px;
+          max-height: 80vh;
+          overflow-y: auto;
+      }
+
+      .cart-item {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 15px 0;
+          border-bottom: 1px solid #ddd;
+      }
+
+      .cart-item img {
+          width: 50px;
+          height: 50px;
+          object-fit: cover;
+          margin-right: 10px;
+      }
+
+      .cart-item-name {
+          font-weight: bold;
+          flex: 1;
+      }
+
+      .cart-item-price {
+          color: #000;
+      }
+
+      .cart-total {
+          font-size: 1.2em;
+          font-weight: bold;
+          color: #000;
+          margin-top: 10px;
+      }
+
+      .cart-actions {
+          display: flex;
+          justify-content: space-between;
+          padding: 20px;
+          border-top: 1px solid #ddd;
+      }
+
+      .cart-actions button {
+          width: 48%;
+          font-weight: bold;
+          padding: 10px;
+          border-radius: 5px;
+      }
+
+      .btn-vaciar {
+          border: 1px solid red;
+          color: black;
+          font-weight: bold;
+      }
+
+      .btn-vaciar:hover {
+          color: white;
+          background: red;
+      }
+
+      .btn-close {
+          filter: brightness(0) invert(1);
+      }
+
+      /* Botón para abrir carrito */
+      .cart-button {
+          position: fixed;
+          top: 20%;
+          right: 0;
+          border-radius: 20px;
+          border: 2px solid #000;
+          color: black;
+          padding: 10px 15px;
+          cursor: pointer;
+          background-color: #fff;
+          font-weight: bold;
+      }
+
+      .cart-button:hover {
+          background-color: #000;
+          color: white;
+      }
+
+      /* Estilos generales para las tarjetas de productos */
+      .card-body {
+          color: #000;
+      }
+
+      .card-title {
+          font-weight: bold;
+      }
+
+      .card-img-top {
+          width: 100%;
+          height: auto;
+          object-fit: cover;
+      }
+        #anuncioSection{
+         text-align: center;
+        }
     </style>
 </head>
 <body class="bg-white prata">
-
 <header th:fragment="header">
     <nav class="navbar navbar-expand-lg mb-3">
         <div class="container-fluid">
@@ -101,26 +242,7 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item mx-2">
-                        <a class="nav-link" aria-current="page" href="/index">Inicio</a>
-                    </li>
-                    <li class="nav-item mx-2">
-                        <a class="nav-link" href="/index#tendencias">Tendencias</a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
-                            Productos
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">Collares</a></li>
-                            <li><a class="dropdown-item" href="#">Anillos</a></li>
-                            <li><a class="dropdown-item" href="#">Aretes</a></li>
-                            <li><a class="dropdown-item" href="#">Brazaletes</a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="#">Personalizacióm</a></li>
-                        </ul>
-                    </li>
-                    <li class="nav-item mx-2">
-                        <a class="nav-link" href="#">Ofertas</a>
+                        <a class="nav-link" aria-current="page" href="/index#tendencias">Tendencias</a>
                     </li>
                 </ul>
                 <form class="d-flex ms-auto formindex mx-5" role="search">
@@ -130,7 +252,7 @@
                     <a class="aea" href="/login">
                         <img class= "icon1" src="https://static.vecteezy.com/system/resources/previews/007/725/022/large_2x/profile-icon-ui-icon-vector.jpg" alt="Logo">
                     </a>
-                    <a class="aea" href="/carrito">
+                    <a class="aea" href="/carrito" onclick="mostrarAlerta(event)">
                         <img class="icon2" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRM5Q2J0XopAHCJf2k2BLKhsmPT77TSbHc2WQ&s" alt="Logo" height="50px">
                     </a>
                 </form>
@@ -138,6 +260,7 @@
         </div>
     </nav>
 </header>
+
 
 <main>
     <div class="container-principal prata mb-3">
@@ -269,9 +392,13 @@
             </div>
         </div>
     </section>
+
+    <section id="anuncioSection">
+    </section>
+
 </main>
 
-<footer th:fragment="footer" class="text-black pt-5 pb-4 mt-4 prata ">
+<footer th:fragment="footer" class="text-black pt-5 pb-4 mt-2 prata">
     <div class="container text-center text-md-left">
         <div class="row text-center text-md-left">
             <div class="col-md-3 col-lg-3 col-xl-3 mx-auto mt-3">
@@ -284,13 +411,13 @@
             <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mt-3">
                 <h5 class=" mb-4 "><b>Joyeria Peeter </b></h5>
                 <p>
-                    <a href="/nosotros" class="text-black" style="text-decoration: none;">Nosotros</a>
+                    <a href="../nosotros.html" class="text-black" style="text-decoration: none;">Nosotros</a>
                 </p>
                 <p>
-                    <a href="/tienda" class="text-black" style="text-decoration: none;">Tienda Física</a>
+                    <a href="../tienda.html" class="text-black" style="text-decoration: none;">Tiendas</a>
                 </p>
                 <p>
-                    <a href="/loginadmin" class="text-black" style="text-decoration: none;">Iniciar Sesión</a>
+                    <a href="../loginadmin.html" class="text-black" style="text-decoration: none;">Iniciar Sesion</a>
                 </p>
 
             </div>
@@ -311,28 +438,70 @@
             <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mt-3">
                 <h5 class=" mb-4 "><b>Contacto</b></h5>
                 <p>
-                    joyeriapeeter@gmail.com
+                    Lima
                 </p>
                 <p>
-                    +51 954 548 100
+                    vintagekey@gmail.com
                 </p>
-            </div>
-            <hr>
-            <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mt-3">
-                <a  class="mx-3" href="https://www.facebook.com/" target="_blank">
-                    <img src="https://freepnglogo.com/images/all_img/facebook-circle-logo-png.png" alt="Facebook"  width="50px" height="50px"/>
-                </a>
-                <a class="mx-3" href="https://www.instagram.com" target="_blank">
-                    <img src="https://img.freepik.com/vetores-gratis/icone-de-midia-social-do-vetor-instagram-7-de-junho-de-2021-banguecoque-tailandia_53876-136728.jpg?w=360" alt="Instagram"  width="74px" height="74px"/>
-                </a>
-                <a class="mx-3" href="https://x.com/" target="_blank">
-                    <img src="https://sweetwaternow.nyc3.cdn.digitaloceanspaces.com/wp-content/uploads/2024/01/Depositphotos_676194222_XL-scaled.jpg" alt="Twitter/X"  width="50px" height="50px"/>
-                </a>
+                <p>
+                    +51 945 478 471
+                </p>
             </div>
         </div>
     </div>
 </footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
 
+<script>
+    const anuncioData = localStorage.getItem('anuncio');
+    if (anuncioData) {
+        const anuncio = JSON.parse(anuncioData);
+
+        const anuncioSection = document.getElementById('anuncioSection');
+        anuncioSection.innerHTML = `
+            <h2>${anuncio.titulo}</h2>
+            <img src="${anuncio.imagen}" alt="Imagen del anuncio" style="max-width: 100%; height: auto;">
+            <p>${anuncio.descripcion}</p>
+        `;
+    }
+</script>
+<script>
+    document.querySelectorAll('.comprar').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const producto = e.target.closest('.col-md-4');
+        const datos = {
+          nombre: producto.dataset.producto,
+          precio: producto.dataset.precio
+        };
+        localStorage.setItem('compraDirecta', JSON.stringify([datos]));
+        window.location.href = 'carrito';
+      });
+    });
+
+    document.querySelectorAll('.agregar').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const producto = e.target.closest('.col-md-4');
+        const datos = {
+          nombre: producto.dataset.producto,
+          precio: producto.dataset.precio
+        };
+        const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+        carrito.push(datos);
+        localStorage.setItem('carrito', JSON.stringify(carrito));
+        alert('Producto agregado al carrito');
+      });
+    });
+</script>
+
+<script>
+    function mostrarAlerta(event) {
+      // Mostrar la alerta
+      alert("Debes iniciar sesión antes de continuar.");
+      // Prevenir que el enlace funcione
+      event.preventDefault();
+    }
+</script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
 </body>
 </html>

@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Joyeria Peeter</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Prata&display=swap" rel="stylesheet">
+    <style>
+        .container-principal{
+                text-align: center;
+            }
+        .nav-link{
+                font-weight: bold;
+                color: #000;
+                font-family: "Prata", serif;
+                font-size: 15px;
+            }
+
+            .nav-link:focus{
+                color:black ;
+            }
+
+            .btn-outline{
+                color: #000;
+                border:2px solid;
+                font-weight: bold;
+            }
+            .btn-outline:hover{
+                color:white;
+                background:#000;
+            }
+
+            .formindex{
+                width:530px;
+                position: relative;
+                margin:0 auto;
+                right:100px;
+            }
+            .forme{
+                border:2px solid;
+                color:#000;
+            }
+            .icon1{
+                position: relative;
+                left: 22px;
+            }
+            .icon2{
+                position: relative;
+                left: 75px;
+            }
+            .icon1,.icon2{
+                width:40px;
+                height:40px;
+                cursor:pointer;
+            }
+            .aea{
+                width:10px;
+                height:10px;
+
+            }
+            .prata{
+                font-size:16px;
+                font-family: "Prata", serif;
+                font-weight:bold;
+            }
+
+            .bg-primary{
+                width:150px
+            }
+            .btn-carrito{
+                font-weight: bold;
+                color:black;
+                border:2px solid #0033cc;
+
+            }
+            .btn-carrito:hover{
+                color:white;
+                background:#003366;
+                border:1px solid;
+
+            }
+            .btn-comprar{
+                font-weight: bold;
+                color:black ;
+                border:2px solid #009933;
+            }
+            .btn-comprar:hover{
+                color:white;
+                background:#006633;
+                border:1px solid;
+
+            }
+            .floating-cart {
+                position: fixed;
+                top: 0;
+                right: -400px; /* Inicia fuera de la pantalla */
+                width: 350px;
+                height: 100%;
+                background-color: #fff;
+                border-left: 1px solid #ccc;
+                box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+                transition: right 0.4s ease;
+                z-index: 1050;
+            }
+
+            .floating-cart.open {
+                right: 0; /* Cuando esté abierto, se despliega */
+            }
+
+            .floating-cart-header {
+                padding: 10px;
+                background-color:#000;
+                color: white;
+                text-align: center;
+                font-weight: bold;
+            }
+
+            .floating-cart-body {
+                padding: 20px;
+                max-height: 80vh;
+                overflow-y: auto;
+            }
+
+            .cart-item {
+                display: flex;
+                justify-content: space-between;
+                padding: 15px 0;
+                border-bottom: 1px solid #ddd;
+            }
+
+            .cart-item-name {
+                font-weight: bold;
+            }
+
+            .cart-item-price {
+                color: #000;
+            }
+
+            .cart-total {
+                font-size: 1.2em;
+                font-weight: bold;
+                color: #000;
+                margin-top: 10px;
+            }
+
+            .cart-actions {
+                display: flex;
+                justify-content: space-between;
+                padding: 20px;
+                border-top: 1px solid #ddd;
+            }
+
+            /* Botón para abrir carrito */
+            .cart-button {
+                position: fixed;
+                top: 20%;
+                right: 0;
+                border-radius:20px;
+                border:2px solid #000;
+                color: black;
+                padding: 10px 15px;
+                cursor: pointer;
+            }
+
+            .cart-button:hover {
+                background-color: #000000;
+                color:white;
+                font-weight: bold;
+            }
+            .card-body{
+                color:#000;
+            }
+            .card-title{
+                font-weight: bold;
+            }
+            .btn-vaciar{
+                border:1px solid red;
+                color:black;
+                font-weight:bold;
+            }
+            .btn-vaciar:hover{
+                color:white;
+                background:red;
+            }
+            .btn-close{
+                filter: brightness(0) invert(1);
+            }
+            /* Anuncios */
+        #anuncioSection {
+            padding: 20px;
+            margin: 20px;
+            border-radius: 8px;
+        }
+
+        #anuncioSection h2 {
+            margin-bottom: 10px;
+        }
+
+        #anuncioSection p {
+            margin-top: 10px;
+        }
+        #username, #balance {
+    display: block;
+    margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body class="bg-white prata">
+<header th:fragment="header">
+    <nav class="navbar navbar-expand-lg mb-3">
+        <div class="container-fluid">
+            <a class="navbar-brand me-5" href="/iniciocliente">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTNUWc3sOO9kgeYDS6fEc4vHlWUoj9fReAPSQ&s" alt="Logo" width="80px" height="80px">
+            </a>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item mx-2">
+                        <a class="nav-link" aria-current="page" href="/iniciocliente#tendencias">Tendencias</a>
+                    </li>
+                </ul>
+                <form class="d-flex ms-auto formindex mx-5" role="search">
+                    <img class= " mx-1 mt-1" src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcStyn6MKLkixkHilzu2VYgml8yOuBH9ShBatNX3js3MtOYyeVYE" alt="Logo" width="40px" height="40px">
+                    <input class="form-control me-2 forme" type="search" placeholder="Buscar" aria-label="Buscar">
+                    <button class="btn btn-outline" type="submit">Buscar</button>
+                    <a class="aea " href="/login">
+                        <img class= "icon1" src="https://static.vecteezy.com/system/resources/previews/007/725/022/large_2x/profile-icon-ui-icon-vector.jpg" alt="Logo">
+                    </a>
+                    <a class="aea" href="/carrito">
+                        <img class="icon2" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRM5Q2J0XopAHCJf2k2BLKhsmPT77TSbHc2WQ&s" alt="Logo" height="50px">
+                    </a>
+                </form>
+            </div>
+        </div>
+    </nav>
+</header>
+
+
+<main>
+    <div class="container-principal prata mb-3">
+        <center>
+            <h1 class="text-black"><b>Bienvenido a nuestra joyeria</b></h1>
+            <p class="text-black"><b>Elegancia y exclusividad en cada joya. Descubre piezas únicas que resaltan tu estilo y sofisticación.</b></p>
+        </center>
+    </div>
+    <div>
+        <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000"
+             data-bs-pause="false">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img src="https://www.boandco.com.mx/cdn/shop/articles/PORTADA_BLOG_175c8090-7d81-4464-bc07-53eeb5653484_1024x.png?v=1706830166" class="d-block w-100" alt="..." height="500px">
+                </div>
+                <div class="carousel-item">
+                    <img src="https://sumaqdesign.pe/wp-content/uploads/2023/10/PORTADA-WEB.png" class="d-block w-100" alt="..." height="500px">
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <br>
+
+    <section id="tendencias">
+        <div class="container mt-5 prata">
+            <h1 class=" mb-3 text-black" ><b> Tendencias</b></h1>
+            <div class="row mb-6">
+                <div class="col-md-4" data-producto="Collar de Oro" data-precio="500.00">
+                    <div class="card">
+                        <img src="https://i.etsystatic.com/30461946/r/il/6ab8e1/3201621865/il_fullxfull.3201621865_ckys.jpg" class="card-img-top" alt="Nombre del producto" width="350px"   height="450px">
+                        <div class="card-body">
+                            <h5 class="card-title">Collar de Oro</h5>
+                            <p class="card-text">$500.00</p>
+                            <a  class="btn btn-carrito agregar">Agregar al carrito</a>
+                            <a  class="btn btn-comprar comprar">Comprar</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4" data-producto="Anillo Jesasie" data-precio="650.50">
+                    <div class="card">
+                        <img src="https://th.bing.com/th/id/OIP.O1qLsFb2kr7Tu0lPmiqdegHaHa?rs=1&pid=ImgDetMain" class="card-img-top"
+                             alt="Nombre del producto" width="350px" height="450px">
+                        <div class="card-body">
+                            <h5 class="card-title">Anillo Jesasie</h5>
+                            <p class="card-text">$650.50</p>
+                            <a class="btn btn-carrito agregar">Agregar al carrito</a>
+                            <a  class="btn btn-comprar comprar">Comprar</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4" data-producto="Anillo Chevalier" data-precio="850.00">
+                    <div class="card">
+                        <img src="https://jade18k.com/cdn/shop/products/20201012_180058.jpg?v=1602596643&width=1445" class="card-img-top" alt="Nombre del producto" width="350px" height="450px">
+                        <div class="card-body">
+                            <h5 class="card-title">Anillo Chevalier</h5>
+                            <p class="card-text">$850.00</p>
+                            <a  class="btn btn-carrito agregar ">Agregar al carrito</a>
+                            <a  class="btn btn-comprar comprar">Comprar</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mt-3" data-producto="Anillo Manjari" data-precio="1890.00">
+                    <div class="card">
+                        <img src="" class="card-img-top" alt="Nombre del producto" width="350px" height="450px">
+                        <div class="card-body">
+                            <h5 class="card-title">Anillo Manjari</h5>
+                            <p class="card-text">$1890.00</p>
+                            <a class="btn btn-carrito agregar">Agregar al carrito</a>
+                            <a  class="btn btn-comprar comprar">Comprar</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mt-3" data-producto="Collar Jabilio" data-precio="2500.00">
+                    <div class="card">
+                        <img src="" class="card-img-top" alt="Nombre del producto" width="350px" height="450px">
+                        <div class="card-body">
+                            <h5 class="card-title">Collar Jabilio</h5>
+                            <p class="card-text">$2500.00</p>
+                            <a  class="btn btn-carrito agregar">Agregar al carrito</a>
+                            <a class="btn btn-comprar comprar">Comprar</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mt-3" data-producto="Collar Cheslie" data-precio="2500.00">
+                    <div class="card">
+                        <img src="" class="card-img-top" alt="Nombre del producto" width="350px" height="450px">
+                        <div class="card-body">
+                            <h5 class="card-title">Collar Cheslie</h5>
+                            <p class="card-text">$2500.00</p>
+                            <a  class="btn btn-carrito agregar" >Agregar al carrito</a>
+                            <a  class="btn btn-comprar comprar">Comprar</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mt-3" data-producto="Brazalete Safiro" data-precio="780.00">
+                    <div class="card">
+                        <img src="" class="card-img-top" alt="Nombre del producto" width="350px" height="450px">
+                        <div class="card-body">
+                            <h5 class="card-title">Brazalete Safiro</h5>
+                            <p class="card-text">$780.00</p>
+                            <a  class="btn btn-carrito agregar">Agregar al carrito</a>
+                            <a  class="btn btn-comprar comprar">Comprar</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mt-3" data-producto="Brazalete Lemnos" data-precio="750.00">
+                    <div class="card">
+                        <img src="" class="card-img-top" alt="Nombre del producto" width="350px" height="450px">
+                        <div class="card-body">
+                            <h5 class="card-title">Brazalete Lemnos</h5>
+                            <p class="card-text">$750.00</p>
+                            <a  class="btn btn-carrito agregar ">Agregar al carrito</a>
+                            <a  class="btn btn-comprar comprar">Comprar</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mt-3" data-producto="Brazalete Tova" data-precio="525.00">
+                    <div class="card">
+                        <img src="" class="card-img-top" alt="Nombre del producto" width="350px" height="450px">
+                        <div class="card-body">
+                            <h5 class="card-title">Brazalete Tova</h5>
+                            <p class="card-text">$525.00</p>
+                            <a  class="btn btn-carrito agregar" >Agregar al carrito</a>
+                            <a  class="btn btn-comprar comprar">Comprar</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <br>
+
+    <section id="anuncioSection">
+        <!-- El anuncio se mostrará aquí -->
+    </section>
+
+
+</main>
+
+<footer th:fragment="footer" class="text-black pt-5 pb-4 mt-2 prata">
+    <div class="container text-center text-md-left">
+        <div class="row text-center text-md-left">
+            <div class="col-md-3 col-lg-3 col-xl-3 mx-auto mt-3">
+                <img class="imgfoot" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTNUWc3sOO9kgeYDS6fEc4vHlWUoj9fReAPSQ&s" alt="Logo" width="80px" height="80px">
+                <p>
+                    @Joyeria Peeter
+                </p>
+            </div>
+
+            <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mt-3">
+                <h5 class=" mb-4 "><b>Joyeria Peeter </b></h5>
+                <p>
+                    <a href="/nosotros" class="text-black" style="text-decoration: none;">Nosotros</a>
+                </p>
+                <p>
+                    <a href="/tienda" class="text-black" style="text-decoration: none;">Tiendas</a>
+                </p>
+                <p>
+                    <a href="/loginadmin" class="text-black" style="text-decoration: none;">Iniciar Sesion</a>
+                </p>
+
+            </div>
+
+            <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mt-3">
+                <h5 class="mb-4"><b>Servicios</b></h5>
+                <p>
+                    <a href="/preguntas" class="text-black" style="text-decoration: none;">Preguntas frecuentes </a>
+                </p>
+                <p>
+                    <a href="/terminosycondiciones" class="text-black" style="text-decoration: none;">Términos & condiciones</a>
+                </p>
+                <p>
+                    <a href="/privacidad" class="text-black" style="text-decoration: none;">Política de privacidad</a>
+                </p>
+            </div>
+
+            <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mt-3">
+                <h5 class=" mb-4 "><b>Contacto</b></h5>
+                <p>
+                    Lima
+                </p>
+                <p>
+                    vintagekey@gmail.com
+                </p>
+                <p>
+                    +51 945 478 471
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+<script>
+    document.querySelectorAll('.comprar').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const producto = e.target.closest('.col-md-4');
+        const datos = {
+          nombre: producto.dataset.producto,
+          precio: producto.dataset.precio
+        };
+        localStorage.setItem('compraDirecta', JSON.stringify([datos]));
+        window.location.href = 'carrito';
+      });
+    });
+
+    document.querySelectorAll('.agregar').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const producto = e.target.closest('.col-md-4');
+        const datos = {
+          nombre: producto.dataset.producto,
+          precio: producto.dataset.precio
+        };
+        const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+        carrito.push(datos);
+        localStorage.setItem('carrito', JSON.stringify(carrito));
+        alert('Producto agregado al carrito');
+      });
+    });
+</script>
+<script>
+    const anuncioData = localStorage.getItem('anuncio');
+    if (anuncioData) {
+        const anuncio = JSON.parse(anuncioData);
+
+        const anuncioSection = document.getElementById('anuncioSection');
+        anuncioSection.innerHTML = `
+            <h2>${anuncio.titulo}</h2>
+            <img src="${anuncio.imagen}" alt="Imagen del anuncio" style="max-width: 100%; height: auto;">
+            <p>${anuncio.descripcion}</p>
+        `;
+    }
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+</body>
+</html>

@@ -8,97 +8,128 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Prata&display=swap" rel="stylesheet">
-<style>
-           .nav-link{
-                font-weight: bold;
-                color: #000;
-                font-family: "Prata", serif;
-                font-size: 15px;
-           }
-           .login{
-             background:rgba(0, 0, 0, 0.8);
-             text-align: center;
-             border-radius:10px;
-             border: 2px solid #000;
-             padding: 20px;
-             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-             width: 450px;
-             margin: 0 auto;
-           }
+    <style>
+        .hre{
+        color:white;
+        font-weight:bold;
+        }
+        .nav-link{
+            font-weight: bold;
+            color: #000;
+            font-family: "Prata", serif;
+            font-size: 15px;
+        }
 
-            .nav-link:focus{
-                color:black ;
-            }
-            .inputu,.inputp{
-              width:  360px;
-              margin:10px auto;
-              display:block;
-            }
-            .label1,.label2,.label3{
-               display:flex;
-               align-items: flex-start;
-               color:white;
-           }
+        .nav-link:focus{
+            color:black ;
+        }
 
-            .btn-outline{
-                color: #000;
-                border:2px solid;
-                font-weight: bold;
-            }
-            .label1,.label2{
-              font-weight:bold;
-           }
-            .btn-outline:hover{
-                color:white;
-                background:#000;
-            }
+        .btn-outline{
+            color: #000;
+            border:2px solid;
+            font-weight: bold;
+        }
+        .btn-outline:hover{
+            color:white;
+            background:#000;
+        }
 
-            .formindex{
-                width:530px;
-                position: relative;
-                margin:0 auto;
-                right:100px;
-            }
-            .forme{
-                border:2px solid;
-                color:#000;
-            }
-            .icon1{
-                position: relative;
-                left: 22px;
-            }
-            .icon2{
-                position: relative;
-                left: 75px;
-            }
-            .icon1,.icon2{
-                width:40px;
-                height:40px;
-                cursor:pointer;
-            }
-            .aea{
-                width:10px;
-                height:10px;
-            }
-            .prata{
-                font-size:16px;
-                font-family: "Prata", serif;
-                font-weight:bold;
-            }
-            .hre{
-                color:white;
-                font-weight:bold;
-            }
-</style>
+        .formindex{
+            width:530px;
+            position: relative;
+            margin:0 auto;
+            right:100px;
+        }
+        .forme{
+            border:2px solid;
+            color:#000;
+        }
+        .icon1{
+            position: relative;
+            left: 22px;
+        }
+        .icon2{
+            position: relative;
+            left: 75px;
+        }
+        .icon1,.icon2{
+            width:40px;
+            height:40px;
+            cursor:pointer;
+        }
+        .aea{
+            width:10px;
+            height:10px;
+        }
+        .prata{
+            font-size:16px;
+            font-family: "Prata", serif;
+            font-weight:bold;
+        }
+        .login {
+            background:rgba(0, 0, 0, 0.8);;
+            text-align: center;
+            border-radius:10px;
+            border: 2px solid #000;
+            padding: 20px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            width: 450px;
+            margin: 0 auto;
+        }
+        .link{
+            display:block;
+            margin-top:15px;
+        }
+        .inputu,.inputp{
+            width:  360px;
+            margin:10px auto;
+            display:block;
+        }
+        .label1,.label2,.label3{
+            display:flex;
+            align-items: flex-start;
+            color:white;
+        }
+        .label1,.label2{
+            font-weight:bold;
+        }
+        .btn-g{
+            width:200px;
+            font-weight: bold;
+            font-size: 18px;
+            border: 1px solid green;
+            background: white;
+            color: black;
+        }
+        .btn-p{
+            width:200px;
+            font-weight: bold;
+            font-size: 18px;
+            border: 1px solid blue;
+            background: white;
+            color: black;
+        }
+        .btn-p:hover{
+           color:white;
+           background:#003366;
+           border: black;
+        }
+        .btn-g:hover{
+           color:white;
+           background: green;
+           border: black;
+        }
+
+    </style>
+
 </head>
-<body class="bg-white prata">
-
-<header th:replace="index::header">
+<body>
+<header th:replace="~{index::header}">
 
 </header>
 
 <main>
-    <div class="login mb-5 mt-5">
+    <div class="login mb-5 mt-3 prata">
         <h1 class="text-white"><b> Iniciar Sesión</b></h1>
         <form class="px-4 py-3" action="/login/submit" method="post" >
             <div class="mb-3">
@@ -118,22 +149,18 @@
                     </label>
                 </div>
             </div>
-            <div th:if="${error}" th:text="${error}" style="color:red;"></div><br>
-
-            <button type="submit" class="btn btn-primary">Iniciar sesión</button>
-
+            <div th:if="${error}" th:text="${error}" style="color:red;"></div>
+            <br>
+            <a href="/index">
+                <button type="submit" class="btn btn-p ">Iniciar sesión</button>
+            </a>
+            <hr class="hre">
         </form>
-        <hr class="hre">
         <a href="/registrocliente" target="blank">
-            <button type="submit" class="btn btn-success">Crear cuenta nueva</button>
+            <button type="submit" class=" btn btn-g ">Crear cuenta nueva</button>
         </a>
     </div>
-</main><br>
-<footer th:replace="index::footer" >
-
-</footer>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-
+</main><br><br>
+<footer th:replace="~{index::footer}"></footer>
 </body>
 </html>

@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head th:fragment="head">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Joyeria Peeter</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            display: flex;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .sidebar {
+            width: 250px;
+            background-color: #343a40;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+        }
+
+        .sidebar h4 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .sidebar button {
+            margin: 10px 0;
+        }
+
+        .content {
+            flex: 1;
+            padding: 20px;
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            background-color: #f8f9fa;
+            padding: 10px 20px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .user-menu {
+            position: relative;
+        }
+
+        .user-dropdown {
+            position: absolute;
+            right: 0;
+            top: 50px;
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            display: none;
+        }
+
+        .user-dropdown a {
+            display: block;
+            padding: 10px;
+            text-decoration: none;
+            color: #333;
+        }
+
+        .user-dropdown a:hover {
+            background-color: #f1f1f1;
+        }
+
+    </style>
+</head>
+
+<body>
+<!-- Sidebar -->
+<div class="sidebar">
+    <h4>Bienvenido <span th:text="${username}">Usuario</span></h4>
+    <button class="btn btn-outline-light w-100" id="btn-graficos">Análisis Gráfico</button>
+    <button class="btn btn-outline-light w-100" id="btn-producto">Productos</button>
+    <button class="btn btn-outline-light w-100" id="btn-proveedor">Proveedores</button>
+    <button class="btn btn-outline-light w-100" id="btn-cliente">Clientes</button>
+    <button class="btn btn-outline-light w-100" id="btn-anuncio">Subir anuncios</button>
+    <button class="btn btn-outline-light w-100" id="btn-register">Registrar Vendedores</button>
+    <a href="/loginadmin">
+    <button class="btn btn-danger w-100 mt-auto" id="btn-salir">Salir</button>
+    </a>
+</div>
+
+
+<div class="content">
+    <div class="topbar">
+        <div class="user-menu">
+            <img src="https://img.freepik.com/vector-premium/icono-circulo-usuario-anonimo-ilustracion-vector-estilo-plano-sombra_520826-1931.jpg" alt="User" height="50px"width="50px" class="rounded-circle">
+            <b><span th:text="${username}">Usuario</span></b>
+            <div class="user-dropdown">
+                <a href="/loginadmin" id="logout">Salir</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="content">
+        <div id="content-container">
+            <center>
+                <h1>Bienvenido al Panel de Administración</h1>
+                <h5>Este panel te permite el acceso a todas las funciones del sistema. Usa las opciones del menú para gestionar el sistema.</h5>
+            </center>
+        </div>
+    </div>
+</div>
+<script>
+    // Mostrar/Ocultar el menú desplegable de usuario
+    document.querySelector('.user-menu img').addEventListener('click', () => {
+        const dropdown = document.querySelector('.user-dropdown');
+        dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+    });
+</script>
+
+<script>
+    // Mapeo de botones a sus URLs correspondientes
+    const routes = {
+        "btn-register": "/register",
+        "btn-proveedor": "/proveedores",
+        "btn-cliente": "/clientes",
+        "btn-producto": "/productos",
+        "btn-anuncio": "/anuncios",
+        "btn-graficos": "/graficos",
+    };
+
+    // Asignar evento de clic a cada botón en el mapeo
+    Object.keys(routes).forEach(buttonId => {
+        const url = routes[buttonId];
+        const button = document.getElementById(buttonId);
+
+        if (button) { // Asegurarse de que el botón exista
+            button.addEventListener("click", function () {
+                // Realizar la solicitud AJAX para cargar el contenido
+                fetch(url)
+                    .then(response => response.text())
+                    .then(html => {
+                        // Reemplazar el contenido del contenedor con el nuevo HTML
+                        document.getElementById("content-container").innerHTML = html;
+
+                        // Si es la sección de gráficos, inicializar los gráficos
+                        if (buttonId === "btn-graficos") {
+                            inicializarGraficos();  // Inicializar los gráficos
+                        }
+
+                        // Si es la sección de anuncios, inicializamos el formulario
+                        if (buttonId === "btn-anuncio") {
+                            inicializarFormulario();  // Inicializar formulario de anuncios
+                        }
+                    })
+                    .catch(error => {
+                        console.error(`Error al cargar el contenido desde ${url}:`, error);
+                    });
+            });
+        }
+    });
+
+    // Función para inicializar los gráficos en la sección de gráficos
+    function inicializarGraficos() {
+        const barCtx = document.getElementById('barChart')?.getContext('2d');
+        if (barCtx) {
+            new Chart(barCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Julio', 'Agosto', 'Setiembre', 'Octubre', 'Noviembre'],
+                    datasets: [{
+                        label: 'Ventas en USD',
+                        data: [500, 600, 800, 900, 700],
+                        backgroundColor: [
+                            'rgba(75, 192, 192, 0.6)',
+                            'rgba(54, 162, 235, 0.6)'
+                        ],
+                        borderColor: [
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(54, 162, 235, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: { beginAtZero: true }
+                    }
+                }
+            });
+        }
+
+        const pieCtx = document.getElementById('pieChart')?.getContext('2d');
+        if (pieCtx) {
+            new Chart(pieCtx, {
+                type: 'pie',
+                data: {
+                    labels: ['Anillos', 'Collares', 'Brazaletes', 'Otros'],
+                    datasets: [{
+                        data: [30, 20, 25, 25],
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.6)',
+                            'rgba(54, 162, 235, 0.6)',
+                            'rgba(255, 206, 86, 0.6)',
+                            'rgba(75, 192, 192, 0.6)'
+                        ]
+                    }]
+                },
+                options: { responsive: true }
+            });
+        }
+    }
+
+    // Función para inicializar los eventos del formulario de anuncios
+    function inicializarFormulario() {
+        const formAnuncio = document.getElementById('formAnuncio');
+        if (formAnuncio) {
+            formAnuncio.addEventListener('submit', function (event) {
+                event.preventDefault();
+
+                const titulo = document.getElementById('titulo').value;
+                const descripcion = document.getElementById('descripcion').value;
+                const imagenFile = document.getElementById('imagen').files[0];
+
+                if (imagenFile) {
+                    const reader = new FileReader();
+                    reader.onload = function (e) {
+                        const anuncio = {
+                            titulo: titulo,
+                            descripcion: descripcion,
+                            imagen: e.target.result  // Guardar la imagen como URL base64
+                        };
+
+                        localStorage.setItem('anuncio', JSON.stringify(anuncio));
+
+                        // Limpiar los campos del formulario
+                        document.getElementById("titulo").value = "";
+                        document.getElementById("imagen").value = "";
+                        document.getElementById("descripcion").value = "";
+
+                        alert("Anuncio subido correctamente!");
+                    };
+                    reader.readAsDataURL(imagenFile);
+                }
+            });
+        }
+    }
+</script>
+
+</body>
+
+</html>
